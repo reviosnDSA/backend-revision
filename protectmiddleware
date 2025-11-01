@@ -58,3 +58,6 @@ export const connectDB=async ()=>{
     console.log("mongodb connection error:",error);
   }
 }
+
+Imports Mongoose, a popular ODM (Object Data Modeling) library for MongoDB.
+It simplifies interacting with MongoDB databases — instead of writing raw queries, you define models and use Mongoose’s API (find(), save(), etc.).
