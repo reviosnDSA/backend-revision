@@ -82,3 +82,27 @@ return res.status(400).json({ message: "All fields are required" });
 Should always include a generic message so you don’t expose internal details.
 
   res.status(500).json({ message: "Internal server error" });
+
+
+⭕logout
+export const logout=(req,res)=>{
+  //in logout just erase cookies
+  try {
+    res.cookie("jwt","",{maxAge:0})
+    res.status(200).json({message:"Logged out successfully"});
+  } catch (error) {
+    console.log("Erron in login controller",error);
+    res.status(500).json({message:"Internal server error"})
+  }
+}
+
+
+//this is done after protect route
+export const checkAuth=(req,res)=>{
+  try {
+    res.status(200).json(req.user)
+  } catch (error) {
+    console.log("Error in checkAuth controller",error);
+    res.status(500).json({message:"Internal server error"})
+  }
+}
