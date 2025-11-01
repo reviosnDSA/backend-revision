@@ -1,0 +1,99 @@
+⭕start the server
+
+import express from "express";
+const port=process.env.port || 5001;
+
+server.listen(port,(req,res)=>{
+  console.log(`app is listening on ${port}`);
+  connectDB();
+})
+
+
+⭕setup middlewares
+1️⃣app.use(express.json());
+This middleware parses incoming JSON data in the request body and makes it available as req.body.
+
+Why needed:
+Without this middleware, req.body would be undefined for JSON payloads.
+It’s the replacement for body-parser.json() (which used to be a separate library).
+
+// If client sends:
+{
+  "username": "Rishabh",
+  "password": "12345"
+}
+Then in your route handler:
+
+app.post('/login', (req, res) => {
+  console.log(req.body.username); // "Rishabh"
+});
+
+2️⃣app.use(cookieParser());
+Purpose:
+This middleware parses the cookies attached to the client request object and populates them into req.cookies.
+
+Why needed:
+Cookies are stored as plain strings in the HTTP headers — this middleware helps extract and parse them easily
+
+If the browser sends this HTTP header:
+Cookie: token=abc123; theme=dark
+
+Then in your route:
+app.get('/', (req, res) => {
+  console.log(req.cookies); // { token: 'abc123', theme: 'dark' }
+});
+
+3️⃣app.use(express.urlencoded({ extended: true }));
+Purpose:
+This middleware parses form data (like HTML form submissions with application/x-www-form-urlencoded)
+
+Parameter:
+extended: true → allows nested objects (via qs library).
+extended: false → only supports simple key-value pairs (via querystring module).
+
+Example with extended: true:
+user[name]=Rishabh&user[age]=21
+becomes:
+req.body = { user: { name: 'Rishabh', age: '21' } };
+
+Example:
+If a form sends:
+username=Rishabh&password=12345
+
+Then req.body becomes:
+{ username: "Rishabh", password: "12345" }
+
+4️⃣app.use("/uploads", express.static("uploads"));
+Purpose:
+This serves static files (like images, PDFs, etc.) from the uploads directory.
+
+If you have a file at:
+uploads/profile.jpg
+
+You can access it via:
+http://localhost:5000/uploads/profile.jpg
+
+Why needed:
+Without this middleware, the server wouldn’t expose files from the file system to HTTP response
+
+5️⃣
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+Purpose:
+Enables Cross-Origin Resource Sharing (CORS) — allows your frontend (React app) hosted on 
+http://localhost:5173 to make requests to your backend (e.g., http://localhost:5000).
+
+Options explained:
+
+origin: "http://localhost:5173"
+→ Only allows requests from this frontend origin.
+credentials: true
+→ Allows cookies or authentication headers to be sent in cross-origin requests (important for sessions / JWT tokens in cookies).
+
+Example:
+Without this, browsers would block requests from your React frontend to your Node.js backend due to CORS restrictions.
+
+⭕routes setup
+app.use("/api/auth",authRoutes); //now in authRoute,all the routes related to authRoutes will be listed
+we make separate folder of routes and contain route.js folder
+
+app.use("/api/messages",messageRoutes);
