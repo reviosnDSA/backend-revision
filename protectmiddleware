@@ -59,5 +59,11 @@ export const connectDB=async ()=>{
   }
 }
 
+🌟
 Imports Mongoose, a popular ODM (Object Data Modeling) library for MongoDB.
 It simplifies interacting with MongoDB databases — instead of writing raw queries, you define models and use Mongoose’s API (find(), save(), etc.).
+
+🌟dotenv.config()
+Imports the dotenv package — used to load environment variables from a .env file into your Node.js process.
+These variables are stored securely and not hardcoded into your code (for security & flexibility).
+It loads all the variables from your .env file and makes them available in process.env.
