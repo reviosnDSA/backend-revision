@@ -1,0 +1,114 @@
+🧩 What is Stripe?
+
+Stripe is a payment gateway that allows developers to accept online payments securely using cards, wallets, UPI, etc.
+
+It provides APIs for:
+Creating payment sessions (for checkout pages)
+Handling payment intents
+Verifying transactions via webhooks
+Managing refunds, subscriptions, and invoices
+
+⚙️ Part 1: Stripe Webhooks — /stripe
+🧠 What is a Webhook?
+
+A Webhook is a way for Stripe to notify your backend automatically when something happens (e.g., a payment succeeds or fails).
+
+Instead of your server continuously checking Stripe, Stripe calls your endpoint with event data.
+
+So your endpoint /stripe must:
+
+Verify that the request really came from Stripe
+
+Extract event details
+
+Perform actions based on the event type (e.g., update DB, clear cart, etc.)
+
+1️⃣ Initialize Stripe
+const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
+
+
+Creates a Stripe instance using your secret key (from Stripe dashboard).
+
+This lets your server talk securely with Stripe’s API.
+
+
+2️⃣ Verify the Webhook Signature
+const sig = request.headers["stripe-signature"];
+event = stripeInstance.webhooks.constructEvent(
+    request.body,
+    sig,
+    process.env.STRIPE_WEBHOOK_SECRET
+);
+
+
+Stripe sends a signature header with every webhook request.
+constructEvent() verifies this signature using your STRIPE_WEBHOOK_SECRET.
+
+✅ If it matches, the event is trusted.
+❌ If it fails, you return:
+
+response.status(400).send(`Webhook Error : ${error.message}`)
+
+
+This is critical for security — it prevents attackers from faking Stripe requests.
+
+
+3️⃣ Handle Different Event Types
+
+Stripe sends many kinds of events (e.g., payment_intent.succeeded, payment_intent.failed, etc.).
+
+You handle them using a switch statement:
+🟢 Case 1: payment_intent.succeeded
+const paymentIntent = event.data.object;
+const paymentIntentId = paymentIntent.id;
+
+
+Extracts the payment intent ID from Stripe’s event.
+
+A payment intent represents one attempt to pay.
+
+Then, you find the related checkout session in Stripe:
+
+const session = await stripeInstance.checkout.sessions.list({
+    payment_intent: paymentIntentId,
+});
+
+
+From that session, you get the metadata:
+
+const { orderId, userId } = session.data[0].metadata;
+
+
+✅ You had earlier stored this metadata when the user started checkout (to link Stripe’s payment with your app’s order and user).
+
+Now, after payment success:
+
+await Order.findByIdAndUpdate(orderId, { isPaid: true });
+await User.findByIdAndUpdate(userId, { cartItems: {} });
+
+
+Marks the order as paid in your database.
+
+Clears the user’s shopping cart (since they completed checkout).
+
+This ensures your app stays in sync with Stripe’s actual payment status.
+
+🔴 Case 2: payment_intent.failed
+
+If payment fails:
+
+await Order.findByIdAndDelete(orderId);
+
+
+You delete the order (or mark it failed) to clean up incomplete transaction
+
+
+Question	Answer
+What is Stripe?	Stripe is a payment gateway that allows secure online payments using cards, wallets, or UPI via API integration.
+What is a Webhook?	A webhook is a callback mechanism where Stripe sends real-time events (like payment success/failure) to your backend.
+Why do we verify the webhook signature?	To ensure the request genuinely came from Stripe and not from a malicious actor.
+What is a Payment Intent?	A payment intent represents the lifecycle of a single payment attempt — from creation to success/failure.
+Why use Metadata in Stripe?	Metadata lets you store custom data (like orderId, userId) to map Stripe payments to your app’s records.
+What happens after payment_intent.succeeded?	The app marks the order as paid and clears the user’s cart.
+What happens after payment_intent.failed?	The app deletes or marks the order as failed to keep data clean.
+What is populate() in Mongoose?	It replaces referenced ObjectIds with actual data from other collections (e.g., products, addresses).
