@@ -62,3 +62,13 @@ app.delete('/users/:id', (req, res) => {
 app.listen(port, () => {
   console.log(`✅ Server is running on http://localhost:${port}`);
 });
+
+
+Code	Meaning
+200	OK (Success)
+201	Created (New resource made)
+400	Bad Request (Invalid input)
+401	Unauthorized (No/invalid token)
+403	Forbidden (No access rights)
+404	Not Found
+500	Internal Server Error
