@@ -1,0 +1,29 @@
+import {v2 as cloudinary} from "cloudinary"
+import { config } from "dotenv"
+
+config();
+
+cloudinary.config({
+  cloud_name:process.env.CLOUDINARY_NAME,
+  api_key:process.env.CLODINARY_API_KEY,
+  api_secret:process.env.CLOUDINARY_API_SECRET
+})
+
+export default cloudinary;
+
+
+Cloudinary is a cloud-based media management platform (storage + CDN + transformations). You upload images/videos to Cloudinary and it serves them globally via CDN, with built-in resizing, format conversion, optimization, caching, and URL-based transformations.
+
+Key features
+
+Cloud storage for images/videos.
+
+CDN delivery for fast global access.
+
+Powerful on-the-fly image/video transformations via URL (resize, crop, quality, format, overlays).
+
+SDKs for Node, browser, mobile, serverless.
+
+Upload APIs: signed uploads, unsigned uploads, direct-from-browser widget, streaming upload from server.
+
+Management dashboard, analytics, and secure access controls.
