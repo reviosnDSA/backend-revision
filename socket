@@ -1,0 +1,47 @@
+What is Socket.IO?
+Socket.IO is a powerful JavaScript library that enables real-time, bidirectional, and event-based communication between web clients and servers.
+It's designed to work on every platform, browser, or device, focusing equally on reliability and speed.
+
+1️⃣ io.on(event, callback)
+🔹 Meaning:
+
+io.on() is used on the server side to listen for a new connection or any other event.
+
+Think of it like saying:
+
+“When this event happens, run this function.”
+
+🔹 Most common usage:
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+});
+
+This listens for a new client connection.
+
+Every time a client connects, Socket.IO gives you a unique socket object for that client.
+
+
+
+2️⃣ io.emit(event, data)
+🔹 Meaning:
+
+io.emit() sends an event to all connected clients.
+
+It’s like broadcasting a message to everyone in the room.
+
+Example:
+io.on("connection", (socket) => {
+  console.log("User connected:", socket.id);
+  
+  // Notify all clients that someone joined
+  io.emit("userJoined", { userId: socket.id });
+});
+
+
+This will send the "userJoined" event (with the user’s ID) to every connected client — including the sender.
+
+
+3️⃣ io.to(roomOrSocketId).emit(event, data)
+🔹 Meaning:
+
+This sends a message to a specific user or a specific room (group of users).
