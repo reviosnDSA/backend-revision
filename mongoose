@@ -1,0 +1,10 @@
+What is Mongoose?
+
+Mongoose is an Object Data Modeling (ODM) library for MongoDB and Node.js.
+It helps you interact with MongoDB using JavaScript objects instead of writing raw database queries.
+
+const addressSchema=new mongoose.Schema({
+})
+
+const Address=mongoose.model('address',addressSchema);
+export default Address;
