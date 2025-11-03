@@ -45,3 +45,65 @@ This will send the "userJoined" event (with the user’s ID) to every connected 
 🔹 Meaning:
 
 This sends a message to a specific user or a specific room (group of users).
+
+
+
+⭕
+const app=express();
+👉 Creates an Express application instance.
+
+🔍 What is Express?
+
+Express.js is a Node.js framework used to handle HTTP requests (like GET, POST, etc.).
+
+It simplifies creating APIs and web servers.
+
+⭕
+const server=http.createServer(app);
+This line:
+👉 Creates a raw HTTP server (from Node’s built-in http module) and tells it to use your Express app to handle requests.
+Creates an HTTP server that uses your Express app to handle requests
+
+Why needed
+To attach Socket.IO (or other WebSocket servers) to the same port as Express
+
+
+http module
+Node.js has a built-in module called http that allows you to create web servers without Express.
+
+
+⭕intialisation of socket.io
+const io = new Server(server, {
+  cors: {
+    origin: ["http://localhost:5173"]
+  }
+});
+
+This line creates a Socket.IO server instance that is attached to your existing HTTP server
+
+Remember earlier:
+const server = http.createServer(app);
+
+That server is your HTTP server.
+You are now adding real-time WebSocket capabilities to it using:
+
+const io = new Server(server);
+
+🌟
+What the Server class is
+
+import { Server } from "socket.io"
+
+This Server class:
+
+Listens for incoming socket connections on top of the HTTP server.
+
+Manages rooms, events, and broadcasting.
+
+Provides methods like:
+
+io.on("connection", callback) — runs whenever a client connects.
+
+io.emit() — sends messages to all connected clients.
+
+io.to(socketId).emit() — sends a message to a specific user.
