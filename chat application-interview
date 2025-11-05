@@ -40,7 +40,9 @@ How to manage state in React with Zustand for scalable architecture.
 Deployment and handling CORS in real environments.
 
 ⚙️ B. Technical Implementation Questions
+
 🔹 1. Frontend (React + Zustand)
+
 Why did you use React.js for the frontend?
 
 React is component-based, which makes the UI modular and reusable.
