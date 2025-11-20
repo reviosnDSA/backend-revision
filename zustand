@@ -140,9 +140,7 @@ Global re-renders happen → Performance can degrade
 Great for small apps
 
 🔹 Zustand flow:
-
 Create store once → No provider needed
-
 Directly use the hook anywhere
 
 Only components that use the changed state re-render → Fast & scalable
