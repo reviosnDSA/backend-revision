@@ -1,0 +1,104 @@
+⭐ 1. What is the Context API? (Interview-Friendly Definition)
+
+Explain it exactly like this:
+
+“Context API is a built-in React feature that allows us to share global data across components without prop drilling. 
+  It creates a centralized store using createContext(), exposes values using a Provider, and lets components access it through useContext().”
+
+⭐ 2. Why Context API is required?
+
+Use this explanation:
+
+“When the same state is needed in many components (like auth status, user data, cart, theme, or language), passing props becomes difficult and messy. Context API solves this by letting us store global values in one place and access them anywhere in the app.”
+
+For example:
+
+User login status required everywhere
+Cart data required in navbar, product page, checkout
+Navigation methods used in multiple pages
+Showing seller or user login pages
+Shared axios instance
+Global functions like addToCart(), removeFromCart(), getCartCount()
+
+All this would be painful using props → So Context API is a perfect fit.
+
+⭐ 3. How Context API works internally?
+  Step-by-step:
+➤ 1. Create a context
+export const AppContext = createContext();
+
+➤ 2. Wrap your app with Provider
+<AppContext.Provider value={value}>
+   {children}
+</AppContext.Provider>
+This makes value available everywhere.
+
+  ➤ 3. Access data using useContext
+const { user, setUser } = useContext(AppContext);
+
+⭐ 4. When to use Context API?
+
+Use Context API when:
+
+✔ You have global data
+✔ The app is not too large
+✔ No heavy re-renders
+✔ You don’t need advanced features like immer, selectors, middleware
+
+In your case → Context API is perfect for E-Commerce or basic marketplace applications.
+
+  ⭐ 5. How you implemented Context API (Beautiful explanation)
+
+Here’s what to tell in interview:
+
+“In my project, I created a global context called AppContext to store all app-wide data like authentication state, seller status, products, cart items, 
+currency, and utility functions.
+I also added API calls inside the provider, so all components can access data and functions without rewriting logic.
+The Provider wraps the entire app, and I created a custom hook useAppContext() to easily consume any state or function.”
+
+
+  ⭐ 8. If interviewer asks you to “write the basic Context API code”
+// 1. Create context
+const AppContext = createContext();
+
+// 2. Provider
+const AppProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  const login = (name) => setUser(name);
+
+  return (
+    <AppContext.Provider value={{ user, login }}>
+      {children}
+    </AppContext.Provider>
+  );
+};
+
+// 3. Custom hook
+const useAppContext = () => useContext(AppContext);
+
+// 4. Consume
+const Profile = () => {
+  const { user, login } = useAppContext();
+  return <div>{user}</div>;
+};
+
+“Context API is a built-in way to share global state across React components without prop drilling. 
+It uses a Provider to store global values and useContext() to consume them.
+
+In my project, I used Context API to store and manage global data like authentication status, seller status, 
+products, cart items, and axios configuration.
+
+I also placed API calls, cart logic, and navigation helpers inside the context so they can be used anywhere in the app. 
+This made the code cleaner, centralized, and easier to maintain.”
+
+
+“Context API helps me avoid prop drilling by providing global states and functions to all components.
+
+In my project, I built an AppContextProvider where I stored user data, seller authentication, product list, cart items, and
+utility functions like addToCart, updateCartItem, and fetch APIs.
+
+My context also contains navigation and axios configuration so that any component, like SellerLogin or ProductPage, 
+can directly access and modify global state through a custom hook useAppContext.
+
+This made my application organized, scalable, and easy to maintain.”
