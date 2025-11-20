@@ -61,5 +61,36 @@ export const generateToken=(userId,res)=>{
 }
 
 
+export const protectRoute=async(req,res,next)=>{
+  try {
+    const token=req.cookies.jwt;
+    if(!token){
+      return res.status(401).json({message:"Unauthroized - No token provided"})
+    }
+
+    //decode the joken and verify it
+    const decoded=jwt.verify(token,process.env.JWT_SECRET);
+    if(!decoded){
+      return res.status(401).json({message:"Unauthroized - Invalid token"})
+    }
+
+    const user= await User.findById(decoded.userId).select("-password")
+    if(!user){
+      return res.status(404).json({message:"User not found"})
+    }
+    req.user=user;
+    next();
+  } catch (error) {
+    console.log("protect middleware error",error);
+    res.status(500).json({message:"Internal server error"})
+  }
+}
+
+🌟JWT implementation (Based on your project)
+In my project, JWT is used for authentication. 
+When a user logs in, I generate a signed token containing the user ID and store it in an HTTP-only cookie for security. 
+On every request, the backend verifies the token using middleware and attaches the user ID to the request object. This allows me to fetch user data, cart, orders, and seller authentication without maintaining sessions in the database.”
+
+“JWT makes my application scalable because the server is stateless, and every microservice can verify the token automatically.”
 
 
