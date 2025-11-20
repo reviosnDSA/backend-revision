@@ -102,3 +102,47 @@ It avoids unnecessary re-renders, keeps code clean, and handles async functions 
 It is more scalable and performant than Context API for real-time or complex state management.
 
 
+Zustand Basic Example
+✅ 1. Create a store
+import { create } from "zustand";
+
+export const useAppStore = create((set) => ({
+  user: null,
+
+  login: (name) => set({ user: name }),
+}));
+
+✅ 2. Use the store anywhere (No provider required)
+import React from "react";
+import { useAppStore } from "./useAppStore";
+
+const Profile = () => {
+  const { user, login } = useAppStore();
+
+  return (
+    <div>
+      <p>User: {user || "No user"}</p>
+      <button onClick={() => login("Rishabh")}>Login</button>
+    </div>
+  );
+};
+
+export default Profile;
+
+
+⭐ Full Explanation (Impress Interviewer)
+🔹 Context API flow:
+
+Create context → Provider wraps app → useContext() to consume
+
+Global re-renders happen → Performance can degrade
+
+Great for small apps
+
+🔹 Zustand flow:
+
+Create store once → No provider needed
+
+Directly use the hook anywhere
+
+Only components that use the changed state re-render → Fast & scalable
