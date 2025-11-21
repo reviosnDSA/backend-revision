@@ -1,0 +1,488 @@
+🔵 1. What is MongoDB?
+
+MongoDB is a NoSQL, document-oriented database that stores data in BSON (Binary JSON) format instead of rows & columns.
+
+Key features:
+
+Schema-less
+
+Stores JSON-like documents
+
+High scalability
+
+High performance
+
+Easy horizontal scaling with sharding
+
+🔵 2. Why use MongoDB instead of SQL?
+
+“MongoDB is used when data is unstructured, schema changes frequently, or high scalability is needed.”
+
+Reasons:
+
+Flexible schema
+
+Faster development
+
+Nested data stored in a single document
+
+Horizontal scaling (sharding)
+
+Built for distributed systems
+
+Easy to store arrays, objects, geolocation data
+
+🔵 3. What is a Document in MongoDB?
+
+A document is a JSON-like object stored in MongoDB.
+
+Example:
+
+{
+  "name": "Rishabh",
+  "age": 22,
+  "skills": ["Node", "React"]
+}
+
+🔵 4. What is a Collection?
+
+A collection is similar to a table but stores documents instead of rows.
+
+Example: users, products, orders.
+
+🔵 5. What is BSON?
+
+BSON = Binary JSON.
+MongoDB stores data internally in BSON for:
+
+Faster parsing
+
+Data types like Date, ObjectId
+
+Efficient indexing
+
+🔵 6. What is ObjectId?
+
+Unique 12-byte ID automatically generated for every MongoDB document.
+
+Structure:
+
+4 bytes → timestamp
+
+5 bytes → random
+
+3 bytes → counter
+
+🔵 7. Difference between SQL and MongoDB?
+SQL	MongoDB
+Structured data	Unstructured/semi-structured
+Tables, rows	Collections, documents
+Fixed schema	Schema-less
+Joins supported	Join-like with $lookup
+Vertical scaling	Horizontal scaling
+Complex migrations	Easy schema changes
+🔵 8. What is Mongoose?
+
+Mongoose is an ODM (Object Document Mapping) library used with Node.js.
+
+It provides:
+
+Schema validation
+
+Middleware
+
+Query builders
+
+🔵 9. Why use Mongoose?
+
+Validation
+
+Middlewares
+
+Easy queries
+
+Virtuals & relationships
+
+Type safety
+
+🔵 10. What is Schema in Mongoose?
+
+Defines the structure of a document.
+
+Example:
+
+const UserSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  age: Number
+});
+
+🔵 11. What is a Model in Mongoose?
+
+Model = schema + collection.
+
+const User = mongoose.model("User", UserSchema);
+
+🔵 12. How to connect to MongoDB in Node.js?
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("Connected"))
+  .catch(err => console.log(err));
+
+🔵 13. CRUD Operations in MongoDB
+➤ Create
+db.users.insertOne({ name: "Rishabh", age: 22 })
+
+➤ Read
+db.users.find({ age: { $gt: 20 } })
+
+➤ Update
+db.users.updateOne({ name: "Rishabh" }, { $set: { age: 25 } })
+
+➤ Delete
+db.users.deleteOne({ name: "Rishabh" })
+
+🔵 14. What are Indexes in MongoDB?
+
+Indexes improve query performance.
+
+Example:
+
+db.users.createIndex({ email: 1 });
+
+🔵 15. Types of Indexes
+
+Single field index
+
+Compound index
+
+Unique index
+
+Text index
+
+Geospatial index
+
+TTL index
+
+🔵 16. What is Aggregation in MongoDB?
+
+Used for data transformation like SQL GROUP BY.
+
+Example:
+
+db.orders.aggregate([
+  { $group: { _id: "$status", count: { $sum: 1 } } }
+])
+
+🔵 17. What is a Pipeline?
+
+Aggregation operations performed step-by-step.
+
+🔵 18. What is $lookup?
+
+Used to perform JOIN in MongoDB.
+
+db.orders.aggregate([
+  { 
+    $lookup: {
+      from: "users",
+      localField: "userId",
+      foreignField: "_id",
+      as: "user"
+    }
+  }
+])
+
+🔵 19. What is Sharding?
+
+Horizontal scaling → distribute data across multiple servers.
+
+Good for:
+
+Large datasets
+
+High read/write traffic
+
+🔵 20. What is Replication?
+
+Replication = multiple copies of data for high availability.
+
+🔵 21. What is a Replica Set?
+
+A group of MongoDB servers:
+
+One primary
+
+Multiple secondary
+
+Used for:
+
+Failover
+
+Backup
+
+High availability
+
+🔵 22. What is MongoDB Atlas?
+
+Cloud version of MongoDB:
+
+Auto scaling
+
+Backups
+
+Built-in security
+
+Monitoring dashboard
+
+🔵 23. What is $match?
+
+Acts like SQL WHERE.
+
+{ $match: { status: "Active" } }
+
+🔵 24. What is $project?
+
+Used to show/hide fields.
+
+{ $project: { name: 1, email: 1 } }
+
+🔵 25. What is $sort?
+
+Sorting in aggregation.
+
+{ $sort: { age: -1 } }
+
+🔵 26. Difference: find() vs findOne()
+
+find() returns array
+
+findOne() returns single document
+
+🔵 27. What is $set?
+
+Used for updating fields.
+
+🔵 28. What is $unset?
+
+Removes a field.
+
+{ $unset: { age: 1 } }
+
+🔵 29. How to validate data in Mongoose?
+email: { type: String, required: true, unique: true }
+
+🔵 30. What is population in mongoose?
+
+Used for joining referenced documents.
+
+Order.find().populate("userId");
+
+🔵 31. What is Pre/Post middleware?
+
+Execute before or after DB operations.
+
+Example:
+
+UserSchema.pre("save", function(next) {
+  console.log("Before save");
+  next();
+});
+
+🔵 32. How to handle relationships?
+➤ 1. Reference (Normalized)
+
+Store ObjectId.
+
+userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+
+➤ 2. Embedded (Denormalized)
+
+Store entire object inside parent.
+
+🔵 33. What is a capped collection?
+
+Fixed-size collection with high write performance.
+
+🔵 34. What is TTL Index?
+
+Automatically removes expired documents.
+
+🔵 35. What is MongoDB Compass?
+
+GUI tool for MongoDB operations.
+
+🔵 36. What is ACID?
+
+Atomicity, Consistency, Isolation, Durability.
+
+MongoDB supports ACID at document level.
+
+🔵 37. Does MongoDB support transactions?
+
+Yes, multi-document transactions with replica sets.
+
+🔵 38. How MongoDB ensures high availability?
+
+Using replica sets.
+
+🔵 39. What is $in and $nin?
+
+Filter multiple values.
+
+db.users.find({ age: { $in: [20, 30] } })
+
+🔵 40. How to paginate in MongoDB?
+db.users.find().skip(10).limit(10)
+
+🔵 41. What is $regex?
+
+Pattern matching.
+
+db.users.find({ name: { $regex: "ris", $options: "i" } })
+
+🔵 42. What are MongoDB Operators?
+
+Comparison: $eq, $gt, $lt, $in
+
+Logical: $or, $and, $not
+
+Update: $set, $inc, $unset
+
+🔵 43. Difference between UpdateOne vs UpdateMany
+
+updateOne updates first match
+
+updateMany updates all matches
+
+🔵 44. What is $inc?
+
+Increment a value.
+
+🔵 45. Why is MongoDB good for eCommerce apps?
+
+Cart stored as nested object
+
+Products have dynamic attributes
+
+Fast reads
+
+Easy scaling during sales
+
+🔵 46. Scenario: Store Cart Items
+
+MongoDB example:
+
+{
+  "_id": "user123",
+  "cartItems": {
+    "item123": 2,
+    "item456": 1
+  }
+}
+
+🔵 47. What is $elemMatch?
+
+Match array elements.
+
+🔵 48. Are Joins possible in MongoDB?
+
+Yes → $lookup.
+
+🔵 49. What happens if MongoDB crashes?
+
+Secondary node becomes new primary (failover).
+
+🔵 50. How to secure MongoDB?
+
+Use authentication
+
+Enable IP whitelisting
+
+Use environment variables
+
+Use MongoDB Atlas
+
+🔵 51. What is a cursor?
+
+Result of a query before converting to array.
+
+🔵 52. What is GridFS?
+
+Stores large files (>16MB) in MongoDB.
+
+🔵 53. What is $group?
+
+Grouping documents like SQL GROUP BY.
+
+🔵 54. What is $addFields?
+
+Add fields in pipeline.
+
+🔵 55. Explain MongoDB working internally
+
+Writes go to primary
+
+Replicated to secondary
+
+Uses journal files
+
+Stores data in WiredTiger engine
+
+🔵 56. Explain MongoDB Architecture
+
+Database
+
+Collections
+
+Documents
+
+Shards
+
+Replica sets
+
+Config servers
+
+🔵 57. Does MongoDB support joins natively?
+
+Yes (since 3.2 using $lookup).
+
+🔵 58. What is $push?
+
+Adds elements to array.
+
+🔵 59. What is $pull?
+
+Removes element from array.
+
+🔵 60. What happens if there is no schema?
+
+MongoDB creates document dynamically.
+
+🔵 61. Example Mongoose Model
+const ProductSchema = new mongoose.Schema({
+  name: String,
+  price: Number,
+  category: String
+});
+
+export default mongoose.model("Product", ProductSchema);
+
+🔵 62. Example Express + MongoDB CRUD
+app.post("/add", async (req, res) => {
+  const product = await Product.create(req.body);
+  res.json(product);
+});
+
+🔵 63. Common MCQ Questions
+
+Q. Does MongoDB support ACID?
+✔ Yes, at document level.
+
+Q. What engine does MongoDB use?
+✔ WiredTiger.
+
+Q. Max BSON document size?
+✔ 16MB.
+
+Q. Does MongoDB support schema validation?
+✔ Yes.
