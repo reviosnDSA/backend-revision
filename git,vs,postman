@@ -1,0 +1,82 @@
+✅ What is GitHub?
+
+GitHub is a cloud-based platform for hosting code, managing projects, and collaborating using Git version control.
+
+💡 Simple Explanation:
+
+“GitHub is like Google Drive for code — it stores code online and tracks changes using Git.”
+
+✅ Why GitHub is used?
+
+To store/code repositories online
+To track all changes and version history
+To collaborate with team members
+To handle branching, merging, PRs
+For CI/CD, deployments, documentation
+To show projects to recruiters (portfolio)
+
+“GitHub is a code hosting platform that uses Git. I used it for version control, storing my projects, maintaining branches, and tracking every update. 
+It helps me collaborate and keep a clean development workflow.”
+
+✅ What is VS Code?
+
+VS Code is a lightweight and powerful code editor created by Microsoft.
+
+✅ Why VS Code is used?
+
+Fast and lightweight
+Tons of extensions (ESLint, Prettier, React, Tailwind, Docker etc.)
+Integrated terminal, debugger
+Git integration built-in
+Very customizable
+
+✅ How YOU used VS Code
+
+Say this:
+“I used VS Code for writing all my frontend and backend code. I also used extensions like ESLint, Prettier, and 
+Tailwind CSS IntelliSense, and used the integrated terminal for running servers and Git commands.”
+
+✅ What is Postman?
+Postman is an API testing platform used to send HTTP requests and test backend APIs.
+
+✅ Why Postman is used?
+
+Test GET, POST, PUT, DELETE APIs
+Send headers, cookies, tokens (JWT)
+Test authentication logic
+Debug server issues
+Check responses before connecting frontend
+Create API collections for teams
+
+✅ How YOU used Postman
+
+Your interview explanation:
+
+“In my project, I used Postman to test all backend REST APIs like login, register, products, and payments. I tested request bodies, 
+authentication using JWT tokens, and error handling. It helped me verify API performance before connecting it to the frontend.”
+
+
+⚡ Rapid-Fire One-Liners (If interviewer asks fast questions)
+✔ What is GitHub?
+
+“GitHub is a cloud platform for storing code and using Git for version control.”
+
+✔ Why do you use GitHub?
+
+“To track changes, collaborate, and keep my code versioned and safe.”
+
+✔ What is VS Code?
+
+“A lightweight and powerful code editor for building applications.”
+
+✔ Why do you use VS Code?
+
+“For coding, debugging, Git integration, and productivity using extensions.”
+
+✔ What is Postman?
+
+“Postman is a tool for testing backend APIs.”
+
+✔ Why do you use Postman?
+
+“To test API responses, authentication, and request bodies before integrating with frontend.”
